@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from app import app
+from app import app as application
 
-#app.run(threaded=True)
-app.run()
+
+if __name__ == '__main__':
+    application.run(threaded=True)
+    #application.run()
