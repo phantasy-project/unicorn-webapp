@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block container %}
+
+{% for k, v in function.items() %}
+    <h3>{{ k }}</h3>
+    <pre>{{v}}</pre>
+{% endfor %}
+
+{% endblock %}
