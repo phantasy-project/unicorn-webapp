@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block container %}
+
+<h3>Inspection of Function: <tt style="color:red;">{{ item.name }}</tt></h3>
+<hr>
+{% for k, v in item.items()|sort %}
+{% if k == 'lastout' or k == 'lastin' %}
+    <h4 style="color:red;">{{ k }}</h4>
+    <pre style="color:red;">{{ v }}</pre>
+{% else %}
+    <h4>{{ k }}</h4>
+    <pre>{{ v }}</pre>
+{% endif %}
+{% endfor %}
+
+{% endblock %}

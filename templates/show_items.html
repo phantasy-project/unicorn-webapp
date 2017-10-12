@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block container %}
+
+<h3>All Available Functions</h3>
+<hr>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Code</th>
+        <th>Last Updated</th>
+    </tr>
+{% for item in items %}
+    <tr>
+        <td><a href={{ item.uri }}><strong>{{ item.name }}</strong></a></td>
+        <td>{{ item.description }}</td>
+        <td><code><pre>{{ item.code }}</pre></code></td>
+        <td><tt>{{ item.timestamp }}</tt></td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}
