@@ -1,7 +1,7 @@
-flask==0.12.2
+flask
 flask_restful
 flask_httpauth
-sqlalchemy
-sqlalchemy-migrate
+flask-migrate
 flask_sqlalchemy
 tzlocal
+yapf
