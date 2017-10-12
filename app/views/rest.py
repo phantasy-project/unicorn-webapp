@@ -6,6 +6,7 @@ from flask import abort
 from flask import request
 from flask import render_template
 from flask import Response
+from flask import make_response
 
 from flask_restful import Resource
 from flask_restful import fields
@@ -15,19 +16,24 @@ from flask_restful import reqparse
 from ..models import Function, User
 from ..models import db
 from ..auth import auth
+from ..utils import check_code
+from ..utils import eval_code
 
 
 function_fields = {
     'name': fields.String,
-    'definition': fields.String,
+    'code': fields.String,
     'invoked': fields.Integer,
     'author': fields.String(attribute=lambda x: x.author_name()),
     'uri': fields.Url('function', absolute=True),
+    'uri-api': fields.Url('func', absolute=True),
     'timestamp': fields.String(attribute=lambda x:x.local_time()),
-    'desc': fields.String(),
-    'args': fields.String(),
-    'lastout': fields.String(),
+    'description': fields.String,
+    'args': fields.String,
+    'lastin': fields.String,
+    'lastout': fields.String,
 }
+
 
 def request_json():
     best = request.accept_mimetypes \
@@ -40,8 +46,8 @@ class FunctionAPI(Resource):
     def __init__(self):
         self.rp = reqparse.RequestParser()
         self.rp.add_argument('name', type=str, location='json')
-        self.rp.add_argument('desc', type=str, location='json')
-        self.rp.add_argument('definition', type=str, location='json')
+        self.rp.add_argument('description', type=str, location='json')
+        self.rp.add_argument('code', type=str, location='json')
         super(FunctionAPI, self).__init__()
 
     def get(self, name):
@@ -49,17 +55,11 @@ class FunctionAPI(Resource):
         if func is None:
             abort(404)
 
-        inp, oup = eval_func(func, **dict(request.args.items()))
-        if inp is not None and oup is not None:
-            setattr(func, 'args', inp)
-            setattr(func, 'lastout', oup)
-            db.session.commit()
-        
         if request_json():
             return {'function': marshal(func, function_fields)}
         return Response(
-                    render_template('show_entries.html',
-                        function=marshal(func, function_fields)), 
+                    render_template('show_item.html',
+                        item=marshal(func, function_fields)),
                     mimetype='text/html')
 
     @auth.login_required
@@ -71,7 +71,10 @@ class FunctionAPI(Resource):
         args = self.rp.parse_args()
         for k, v in args.items():
             if v is not None:
+                if k in ['code']:
+                    v = check_code(v)
                 setattr(func, k, v)
+
         db.session.commit()
         return {'function': marshal(func, function_fields)}
 
@@ -90,11 +93,11 @@ class FunctionListAPI(Resource):
         self.rp = reqparse.RequestParser()
         self.rp.add_argument('name', type=str, required=True,
                 help='No function name provided', location='json')
-        self.rp.add_argument('definition', type=str, required=True,
-                help='No definition found', location='json')
-        self.rp.add_argument('desc', type=str, default='',
+        self.rp.add_argument('code', type=str, required=True,
+                help='No code found', location='json')
+        self.rp.add_argument('description', type=str, default='TBA',
                 location='json')
-        self.rp.add_argument('args', type=str, default='x',
+        self.rp.add_argument('args', type=str, default='',
                 location='json')
         self.rp.add_argument('author', type=str, default='',
                 location='json')
@@ -102,7 +105,12 @@ class FunctionListAPI(Resource):
 
     def get(self):
         fs = Function.query.all()
-        return {'functions': [marshal(f, function_fields) for f in fs]}
+        if request_json():
+            return {'functions': [marshal(f, function_fields) for f in fs]}
+        return Response(
+                    render_template('show_items.html',
+                        items=[marshal(f, function_fields) for f in fs]),
+                        mimetype='text/html')
 
     @auth.login_required
     def post(self):
@@ -119,13 +127,16 @@ class FunctionListAPI(Resource):
                 else: # does not work
                     u = User(nickname=func.get('author'), email='TBA')
                     db.session.add(u)
-                print(u)
+                
+            code = check_code(func.get('code'))
+            if not code:
+                return {"error": "Invalid code"}, 406
 
             new_f = Function(name=f_name, invoked=0,
                              timestamp=datetime.utcnow(),
                              author=u,
-                             definition=func.get('definition'),
-                             desc=func.get('desc', 'TBA'),
+                             code=code,
+                             description=func.get('description'),
                              args=func.get('args'),
                     )
             db.session.add(new_f)
@@ -133,15 +144,21 @@ class FunctionListAPI(Resource):
             return {'function': marshal(new_f, function_fields)}, 201
 
 
-def eval_func(f, **kws):
-    fncode, ns = compile(f.definition, "<string>", "exec"), {}
-    exec fncode in ns
-    try:
-        x = float(kws.values()[0])
-    except IndexError:
-        return None, None
-    return x, ns.get('f')(x)
+class FunctionExecAPI(Resource):
+    def get(self, name):
+        func = Function.query.filter(Function.name==name).first()
+        if func is None:
+            abort(404)
+        
+        inp, oup = eval_code(func, **dict(request.args.items()))
+        print(inp, oup)
+        if inp is not None and oup is not None:
+            setattr(func, 'lastin', str(inp))
+            setattr(func, 'lastout', oup)
+            setattr(func, 'invoked', func.invoked + 1)
+            db.session.commit()
+        else:
+            setattr(func, 'invoked', func.invoked + 1)
+            db.session.commit()
 
-
-
-    
+        return {'result': oup}
