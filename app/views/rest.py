@@ -78,6 +78,7 @@ class FunctionAPI(Resource):
         db.session.commit()
         return {'function': marshal(func, function_fields)}
 
+    @auth.login_required
     def delete(self, name):
         func = Function.query.filter(Function.name==name).first()
         if func is None:
@@ -151,7 +152,6 @@ class FunctionExecAPI(Resource):
             abort(404)
         
         inp, oup = eval_code(func, **dict(request.args.items()))
-        print(inp, oup)
         if inp is not None and oup is not None:
             setattr(func, 'lastin', str(inp))
             setattr(func, 'lastout', oup)
