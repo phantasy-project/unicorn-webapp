@@ -5,3 +5,4 @@ flask-migrate
 flask_sqlalchemy
 tzlocal
 yapf
+pyopenssl
