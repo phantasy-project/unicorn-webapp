@@ -7,8 +7,10 @@ from flask_migrate import Migrate
 
 import os
 
-template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../templates')
-static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../static')
+template_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            '../templates')
+static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                          '../static')
 
 app = Flask(__name__,
             instance_relative_config=True,
@@ -31,5 +33,5 @@ api.add_resource(FunctionAPI, '/functions/<string:name>',
                  endpoint='function')
 api.add_resource(FunctionListAPI, '/functions',
                  endpoint='functions')
-api.add_resource(FunctionExecAPI, '/api/functions/<string:name>',
+api.add_resource(FunctionExecAPI, '/api/v1.0/functions/<string:name>',
                  endpoint='func')
