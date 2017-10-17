@@ -7,6 +7,9 @@
 {% if k == 'lastout' or k == 'lastin' %}
     <h4 style="color:red;">{{ k }}</h4>
     <pre style="color:red;">{{ v }}</pre>
+{% elif k == 'code' %}
+    <h4>{{ k }}</h4>
+    <pre><code class="python">{{ v }}</code></pre>
 {% else %}
     <h4>{{ k }}</h4>
     <pre>{{ v }}</pre>

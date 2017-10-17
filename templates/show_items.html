@@ -3,10 +3,11 @@
 
 <h3>All Available Functions</h3>
 <hr>
-<table>
+<table align="left">
     <tr>
         <th>Name</th>
         <th>Description</th>
+        <th>Invoked</th>
         <th>Code</th>
         <th>Last Updated</th>
     </tr>
@@ -14,7 +15,8 @@
     <tr>
         <td><a href={{ item.uri }}><strong>{{ item.name }}</strong></a></td>
         <td>{{ item.description }}</td>
-        <td><code><pre>{{ item.code }}</pre></code></td>
+        <td>{{ item.invoked }}</td>
+        <td><pre><code class="python">{{ item.code }}</code></pre></td>
         <td><tt>{{ item.timestamp }}</tt></td>
     </tr>
 {% endfor %}
