@@ -1,7 +1,7 @@
 import os
 
 DEBUG = False
-#SERVER_NAME = '127.0.0.1:5000'
+#SERVER_NAME = '192.168.31.115:5000'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
