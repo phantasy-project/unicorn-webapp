@@ -53,7 +53,8 @@ class Function(db.Model):
         return utc2local(self.timestamp)
 
     def author_name(self):
-        return User.query.filter(User.id == 1).first().nickname
+        #return User.query.filter(User.id == 1).first().nickname
+        return User.query.filter().first().nickname
     
     def __repr__(self):
         return "<Function '{}'>".format(self.name)

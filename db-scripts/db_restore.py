@@ -14,7 +14,7 @@ from app.models import User
 from app.models import db
 
 
-u1 = User(nickname='dev1', email='dev1@localhost')
+u1 = User(nickname='dev1', email='dev1@localhost', id=1)
 
 
 # read json data into db
@@ -22,7 +22,7 @@ import json
 from datetime import datetime
 import os
 
-infile = os.path.join(os.path.dirname(__file__), 'app0.json')
+infile = os.path.join(os.path.dirname(__file__), 'app.json')
 data = json.load(open(infile, 'r'))
 
 for rec in data:
@@ -35,18 +35,10 @@ for rec in data:
     f = Function(**kws)
     db.session.add(f)
 
-#f1_str = """
-#def f(x, y):
-#    return x + y
-#"""
-#
-#f1 = Function(name='f1', invoked=0,
-#              timestamp=datetime.utcnow(),
-#              author=u1,
-#              code=f1_str,
-#              args='x,y',
-#              description="two input parameters")
-#
+# users:
+db.session.add(u1)
+db.session.commit()
+
 #f2_str = """
 #def f(x):
 #    return 1 + 0.5*x + 0.25*x**2.0
@@ -58,27 +50,3 @@ for rec in data:
 #              args='x',
 #              code=f2_str,
 #              description="complex math equation")
-#
-#f3_str = """
-#def f(y):
-#    import numpy
-#    return numpy.sin(y)
-#"""
-#
-#f3 = Function(name='f3', invoked=0,
-#              timestamp=datetime.utcnow(),
-#              author=u1,
-#              code=f3_str,
-#              args='y',
-#              description="incorporate numpy function")
-#
-
-# users:
-db.session.add(u1)
-
-# functions:
-#db.session.add(f1)
-#db.session.add(f2)
-#db.session.add(f3)
-
-db.session.commit()

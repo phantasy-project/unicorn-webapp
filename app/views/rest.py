@@ -124,7 +124,7 @@ class FunctionListAPI(Resource):
             u = User.query.filter(User.nickname==func.get('author')).first()
             if u is None:
                 if func.get('author') == '':
-                    u = User.query.get(1)
+                    u = User.query.all()[0]
                 else: # does not work
                     u = User(nickname=func.get('author'), email='TBA')
                     db.session.add(u)
