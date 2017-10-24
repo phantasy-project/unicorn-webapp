@@ -154,7 +154,7 @@ class FunctionExecAPI(Resource):
         inp, oup = eval_code(func, **dict(request.args.items()))
         if inp is not None and oup is not None:
             setattr(func, 'lastin', str(inp))
-            setattr(func, 'lastout', oup)
+            setattr(func, 'lastout', str(oup))
             setattr(func, 'invoked', func.invoked + 1)
             db.session.commit()
         else:
