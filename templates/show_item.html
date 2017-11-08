@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 {% block container %}
 
+<div class="mybs page-header">
 <h3>Inspection of Function: <tt style="color:red;">{{ item.name }}</tt></h3>
-<hr>
+</div>
+<div class="mybs">
 {% for k, v in item.items()|sort %}
 {% if k == 'lastout' or k == 'lastin' %}
     <h4 style="color:red;">{{ k }}</h4>
@@ -15,5 +17,6 @@
     <pre>{{ v }}</pre>
 {% endif %}
 {% endfor %}
+</div>
 
 {% endblock %}
