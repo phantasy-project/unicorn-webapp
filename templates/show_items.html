@@ -27,7 +27,7 @@ $(function(){
         <td><a href={{ item.uri }}><strong>{{ item.name }}</strong></a></td>
         <td>{{ item.description }}</td>
         <td>{{ item.invoked }}</td>
-        <td><pre><code class="python">{{ item.udef }}</code></pre></td>
+        <td><pre class="mypre" style="font-size:90%;line-height:100%;"><code class="python">{{ item.udef }}</code></pre></td>
         <td><tt>{{ item.timestamp }}</tt></td>
     </tr>
 {% endfor %}
