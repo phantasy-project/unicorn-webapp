@@ -1,17 +1,23 @@
 {% extends "base.html" %}
 {% block container %}
 
-<div class="page-header mybs">
+<script>
+$(function(){
+    $("#func-all").DataTable();
+});
+</script>
+
+<div class="container page-header">
     <h2>Functions</h2>
 </div>
-<div class="container-fluid mybs">
-<table class="table table-striped table-hover">
+<div class="container">
+<table id="func-all" class="table table-striped table-bordered table-hover" cellspacing="0">
     <thead>
     <tr>
         <th>Name</th>
         <th>Description</th>
         <th>Invoked</th>
-        <th>Code</th>
+        <th>Definition</th>
         <th>Last Updated</th>
     </tr>
     </thead>
@@ -21,7 +27,7 @@
         <td><a href={{ item.uri }}><strong>{{ item.name }}</strong></a></td>
         <td>{{ item.description }}</td>
         <td>{{ item.invoked }}</td>
-        <td><pre><code class="python">{{ item.code }}</code></pre></td>
+        <td><pre><code class="python">{{ item.udef }}</code></pre></td>
         <td><tt>{{ item.timestamp }}</tt></td>
     </tr>
 {% endfor %}

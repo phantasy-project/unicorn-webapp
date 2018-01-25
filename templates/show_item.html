@@ -1,22 +1,79 @@
 {% extends "base.html" %}
 {% block container %}
 
-<div class="mybs page-header">
-<h3>Inspection of Function: <tt style="color:red;">{{ item.name }}</tt></h3>
+<script src="{{ url_for('static', filename='js/func.js') }}?002"></script>
+
+<script>
+$(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
+
+<style type="text/css">
+    .myborder {
+        border:0;
+        border-bottom:1px solid black;
+    }
+</style>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Inspection of Function: <tt style="color:red;">{{ item.name }}</tt>
+                <span class="btn-group pull-right">
+                    <span title="JSON Arguments" data-toggle="tooltip">
+                        <small><input type="text" name="input-arguments"
+                                      class="text-info myborder"                          
+                                      placeholder='e.g.: {"x":1, "y":2}...'
+                                      id="func-input-args">
+                        </small>
+                    </span>
+                    <span title="Evaluation Output" data-toggle="tooltip">
+                        <small>
+                               <input id="func-output" name="output results"
+                                      class="text-danger myborder"
+                                      placeholder='output...'
+                                      readonly>
+                        </small>
+                    </span>
+                    <span title='Run' data-toggle="tooltip">
+                        <button class="btn btn-default btn-run-function"
+                                data-name="{{ item.name }}"
+                                data-apiurl="{{ url_for('func', name=item.name) }}">
+                            <i class="glyphicon glyphicon-play"></i>
+                        </button>
+                    </span>
+                    <span title="Edit" data-toggle="tooltip">
+                        <button class="btn btn-default btn-edit-function"
+                                data-toggle="modal"
+                                data-title="Update Function" 
+                                data-target="#update-function-modal"
+                                data-name="{{ item.name }}"
+                                data-args="{{ item.args }}"
+                                data-desc="{{ item.description }}"
+                                data-code="{{ item.code }}"
+                                data-url="{{ url_for('function', name=item.name) }}">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </button>
+                    </span>
+                </span>
+            </h3>
+        </div>
+        <div class="panel-body">
+            {% for k, v in item.items()|sort if k != 'code' %}
+
+            <p class="text-uppercase"><strong>{{ k }}</strong></p>
+            {% if k == 'udef' %}
+            <pre><code class="python">{{ v }}</code></pre>
+            {% else %}
+            <p>{{ v }}</p>
+            {% endif %}
+
+            {% endfor %}
+        </div>
+    </div>
 </div>
-<div class="mybs">
-{% for k, v in item.items()|sort %}
-{% if k == 'lastout' or k == 'lastin' %}
-    <h4 style="color:red;">{{ k }}</h4>
-    <pre style="color:red;">{{ v }}</pre>
-{% elif k == 'code' %}
-    <h4>{{ k }}</h4>
-    <pre><code class="python">{{ v }}</code></pre>
-{% else %}
-    <h4>{{ k }}</h4>
-    <pre>{{ v }}</pre>
-{% endif %}
-{% endfor %}
-</div>
+
+{% include 'update_function_modal.html' %}
 
 {% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block container %}
+
+<script>
+$(function(){
+    $("#func-overview").DataTable({
+        "order": [[ 1, "desc" ]],
+        "info": false,
+    });
+});
+</script>
+
+<!--
+<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
+-->
+
+<div class="container">
+    <h2 class="text-center">
+        Welcome to the UNICORN service<br/>
+        <small style="font-family:monospace;">Interpret the unit between physics and engineering</small>
+    </h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="text text-danger">Features</h4>
+        </div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>Executing</dt>
+                <dd class="text-info">REST APIs are provided for applying the scaling rules</dd>
+                <dt>Showing</dt>
+                <dd class="text-info">Represent device with an informative way</dd>
+                <dt>Tracking</dt>
+                <dd class="text-info">Manage scaling rules friendly</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="text text-danger">Hit Board</h4>
+        </div>
+        <div class="panel-body">
+            <table id="func-overview" class="table table-hover table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th class="col-sm-2">Name</th>
+                        <th class="col-sm-4">Hit Count</th>
+                        <th class="col-sm-6">Last Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for f in funcs %}
+                    <tr>
+                        <td><a href={{ url_for('function', name=f.name) }}>{{ f.name }}</a></td>
+                        <td>{{ f.invoked }}</td>
+                        <td>{{ f.timestamp }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
