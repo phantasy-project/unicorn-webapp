@@ -9,7 +9,6 @@ from flask import Response
 from flask import make_response
 
 from flask_restful import Resource
-from flask_restful import fields
 from flask_restful import marshal
 from flask_restful import reqparse
 
@@ -18,21 +17,7 @@ from ..models import db
 from ..auth import auth
 from ..utils import check_code
 from ..utils import eval_code
-
-
-function_fields = {
-    'name': fields.String,
-    'code': fields.String,
-    'invoked': fields.Integer,
-    'author': fields.String(attribute=lambda x: x.author_name()),
-    'uri': fields.Url('function', absolute=True),
-    'uri-api': fields.Url('func', absolute=True),
-    'timestamp': fields.String(attribute=lambda x:x.local_time()),
-    'description': fields.String,
-    'args': fields.String,
-    'lastin': fields.String,
-    'lastout': fields.String,
-}
+from ..fields import function_fields
 
 
 def request_json():
@@ -46,6 +31,7 @@ class FunctionAPI(Resource):
     def __init__(self):
         self.rp = reqparse.RequestParser()
         self.rp.add_argument('name', type=str, location='json')
+        self.rp.add_argument('args', type=str, location='json')
         self.rp.add_argument('description', type=str, location='json')
         self.rp.add_argument('code', type=str, location='json')
         super(FunctionAPI, self).__init__()
@@ -59,12 +45,12 @@ class FunctionAPI(Resource):
             return {'function': marshal(func, function_fields)}
         return Response(
                     render_template('show_item.html',
+                        title="Unicorn - Function",
                         item=marshal(func, function_fields)),
                     mimetype='text/html')
 
     @auth.login_required
     def put(self, name):
-        # todo: handle user?
         func = Function.query.filter(Function.name==name).first()
         if func is None:
             abort(404)
@@ -110,6 +96,7 @@ class FunctionListAPI(Resource):
             return {'functions': [marshal(f, function_fields) for f in fs]}
         return Response(
                     render_template('show_items.html',
+                        title="Unicorn - Functions",
                         items=[marshal(f, function_fields) for f in fs]),
                         mimetype='text/html')
 
