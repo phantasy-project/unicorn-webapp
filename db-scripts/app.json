@@ -1,0 +1,74 @@
+[
+  {
+    "args": "x,y", 
+    "code": "\ndef f(x, y):\n    return x + y\n", 
+    "description": "two input parameters", 
+    "id": 1, 
+    "invoked": 857, 
+    "lastin": "{'y': 2.0, 'x': 1.0}", 
+    "lastout": "3.0", 
+    "name": "f1", 
+    "timestamp": "2017-10-19 20:52:44.066048", 
+    "user_id": 1
+  }, 
+  {
+    "args": "x", 
+    "code": "\ndef f(x):\n    return 1 + 0.5*x + 0.25*x**2.0\n", 
+    "description": "complex math equation", 
+    "id": 2, 
+    "invoked": 2, 
+    "lastin": "{'x': 2.0}", 
+    "lastout": "3.0", 
+    "name": "f2", 
+    "timestamp": "2017-10-12 22:14:52.531198", 
+    "user_id": 1
+  }, 
+  {
+    "args": "y", 
+    "code": "\ndef f(y):\n    import numpy\n    return numpy.sin(y)\n", 
+    "description": "incorporate numpy function", 
+    "id": 3, 
+    "invoked": 825, 
+    "lastin": "{'y': 2.0}", 
+    "lastout": "0.909297426825682", 
+    "name": "f3", 
+    "timestamp": "2017-10-19 20:57:10.535942", 
+    "user_id": 1
+  }, 
+  {
+    "args": "", 
+    "code": "def f():\n    return 'Hello World'\n", 
+    "description": "TBA", 
+    "id": 4, 
+    "invoked": 5, 
+    "lastin": "{}", 
+    "lastout": "Hello World", 
+    "name": "f4", 
+    "timestamp": "2017-10-17 15:10:02.615808", 
+    "user_id": 1
+  }, 
+  {
+    "args": "", 
+    "code": "def f(x, **kws):\n  return kws.get('y', 0) + x", 
+    "description": "arbitrary kws", 
+    "id": 5, 
+    "invoked": 11, 
+    "lastin": "{'y': 4.0, 'x': 1.0}", 
+    "lastout": "5.0", 
+    "name": "f5", 
+    "timestamp": "2017-10-17 15:10:48.603790", 
+    "user_id": 1
+  }, 
+  {
+    "args": "", 
+    "code": "def f(x):\n    import numpy\n    return numpy.sin(x)**2\n", 
+    "description": "a new function", 
+    "id": 6, 
+    "invoked": 2, 
+    "lastin": "{'x': 2.0}", 
+    "lastout": "0.826821810431806", 
+    "name": "f6", 
+    "timestamp": "2017-10-18 13:58:26.844981", 
+    "user_id": 1
+  }
+]
