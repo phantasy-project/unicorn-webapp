@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from passlib.apps import custom_app_context as pwd_context
 
 from . import db
 from .utils import utc2local
@@ -10,20 +11,12 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
+    password_hash = db.Column(db.String(128))
     functions = db.relationship('Function', backref='author',
                                 lazy='dynamic')
-
-    @property
-    def is_authenticated(self):
-        return True
-
-    @property
-    def is_active(self):
-        return True
-
-    @property
-    def is_anonymous(self):
-        return False
+    timestamp = db.Column(db.DateTime,
+                          default=datetime.utcnow,
+                          onupdate=datetime.utcnow)
 
     def get_id(self):
         try:
@@ -34,20 +27,29 @@ class User(db.Model):
     def __repr__(self):
         return "<User '{}'>".format(self.nickname)
 
+    def hash_password(self, passwd):
+        self.password_hash = pwd_context.encrypt(passwd)
+
+    def verify_password(self, passwd):
+        return pwd_context.verify(passwd, self.password_hash)
+
 
 class Function(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     invoked = db.Column(db.Integer, index=True)
-    code = db.Column(db.String(140))
+    code = db.Column(db.String(1000))
     timestamp = db.Column(db.DateTime,
                           default=datetime.utcnow,
                           onupdate=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    description = db.Column(db.String(100))
-    args = db.Column(db.String(20))
-    lastin = db.Column(db.String(20))
-    lastout = db.Column(db.String(20))
+    description = db.Column(db.String(500))
+    args = db.Column(db.String(500))
+    lastin = db.Column(db.String(500))
+    lastout = db.Column(db.String(500))
+
+    def udef(self):
+        return self.code.strip()
 
     def local_time(self):
         return utc2local(self.timestamp)
