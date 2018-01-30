@@ -54,11 +54,11 @@ class Function(db.Model):
     # hit history with timestamp (array)
     hit_ts = db.Column(db.PickleType)
 
-    hit_ts_list = []
     def append_hit_ts(self):
         """Append new ts to hit_ts.
         """
-        self.hit_ts_list.append(self.timestamp)
+        self.hit_ts_list = self.get_hit_ts()
+        self.hit_ts_list.append(datetime.now())
         self.hit_ts = pickle.dumps(self.hit_ts_list)
 
     def get_hit_ts(self):
