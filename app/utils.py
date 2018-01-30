@@ -33,7 +33,6 @@ def to_dict(d):
 
 def eval_code(f, **kws):
     kwargs = to_dict(kws)
-    print(kwargs)
     fncode, ns = compile(f.code, "<string>", "exec"), {}
     exec fncode in ns
     if not f.args:

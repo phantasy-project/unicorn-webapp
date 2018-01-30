@@ -16,4 +16,6 @@ function_fields = {
     'args': fields.String,
     'lastin': fields.String,
     'lastout': fields.String,
+    #'x': fields.Raw(attribute=lambda x:x.get_x()),
+    #'y': fields.Raw(attribute=lambda x:x.get_y()),
 }
