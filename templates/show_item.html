@@ -9,13 +9,6 @@ $(function() {
 });
 </script>
 
-<style type="text/css">
-    .myborder {
-        border:0;
-        border-bottom:1px solid black;
-    }
-</style>
-
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -23,7 +16,7 @@ $(function() {
                 <span class="btn-group pull-right">
                     <span title="JSON Arguments" data-toggle="tooltip">
                         <small><input type="text" name="input-arguments"
-                                      class="text-info myborder"                          
+                                      class="text-info myborder"
                                       placeholder='e.g.: {"x":1, "y":2}...'
                                       id="func-input-args">
                         </small>
@@ -46,7 +39,7 @@ $(function() {
                     <span title="Edit" data-toggle="tooltip">
                         <button class="btn btn-default btn-edit-function"
                                 data-toggle="modal"
-                                data-title="Update Function" 
+                                data-title="Update Function"
                                 data-target="#update-function-modal"
                                 data-name="{{ item.name }}"
                                 data-args="{{ item.args }}"
@@ -60,6 +53,8 @@ $(function() {
             </h3>
         </div>
         <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-4">
             {% for k, v in item.items()|sort if k != 'code' %}
 
             <p class="text-uppercase"><strong>{{ k }}</strong></p>
@@ -70,6 +65,20 @@ $(function() {
             {% endif %}
 
             {% endfor %}
+            </div>
+            <div class="col-lg-8">
+                <div>
+                    <p class="text-uppercase"><strong>Data Curve (Engineering&rarr;Physics)</strong></p>
+                </div>
+                {{ data_div|safe }}
+                {{ data_script|safe }}
+                <div>
+                    <p class="text-uppercase"><strong>Trend</strong></p>
+                </div>
+                {{ trend_div|safe }}
+                {{ trend_script|safe }}
+            </div>
+        </div>
         </div>
     </div>
 </div>
