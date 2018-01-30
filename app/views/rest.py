@@ -18,7 +18,8 @@ from ..auth import auth
 from ..utils import check_code
 from ..utils import eval_code
 from ..fields import function_fields
-from ..viz import create_plot
+from ..viz import create_data_plot
+from ..viz import create_trend_plot
 
 
 def request_json():
@@ -43,7 +44,9 @@ class FunctionAPI(Resource):
         func = Function.query.filter(Function.name==name).first()
         if func is None:
             abort(404)
-        script, div = create_plot(func)
+        data_script, data_div = create_data_plot(func)
+        trend_script, trend_div = create_trend_plot(func)
+
         f = marshal(func, function_fields)
 
         if request_json():
@@ -52,7 +55,8 @@ class FunctionAPI(Resource):
                     render_template('show_item.html',
                         title="Unicorn - Function",
                         item=f,
-                        data_div=div, data_script=script,
+                        data_div=data_div, data_script=data_script,
+                        trend_div=trend_div, trend_script=trend_script,
                         ),
                     mimetype='text/html')
 
