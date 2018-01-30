@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from passlib.apps import custom_app_context as pwd_context
+import pickle
 
 from . import db
 from .utils import utc2local
@@ -23,7 +24,7 @@ class User(db.Model):
             return unicode(self.id)
         except NameError:
             return str(self.id)
-    
+
     def __repr__(self):
         return "<User '{}'>".format(self.nickname)
 
@@ -47,6 +48,36 @@ class Function(db.Model):
     args = db.Column(db.String(500))
     lastin = db.Column(db.String(500))
     lastout = db.Column(db.String(500))
+    # discrete data (array) of I:x and B/G:y
+    data_x = db.Column(db.PickleType)
+    data_y = db.Column(db.PickleType)
+    # hit history with timestamp (array)
+    hit_ts = db.Column(db.PickleType)
+
+    hit_ts_list = []
+    def append_hit_ts(self):
+        """Append new ts to hit_ts.
+        """
+        self.hit_ts_list.append(self.timestamp)
+        self.hit_ts = pickle.dumps(self.hit_ts_list)
+
+    def get_hit_ts(self):
+        try:
+            return pickle.loads(self.hit_ts)
+        except:
+            return []
+
+    def get_x(self):
+        try:
+            return pickle.loads(self.data_x)
+        except:
+            return []
+
+    def get_y(self):
+        try:
+            return pickle.loads(self.data_y)
+        except:
+            return []
 
     def udef(self):
         return self.code.strip()
@@ -57,6 +88,7 @@ class Function(db.Model):
     def author_name(self):
         #return User.query.filter(User.id == 1).first().nickname
         return User.query.filter().first().nickname
-    
+
     def __repr__(self):
         return "<Function '{}'>".format(self.name)
+
