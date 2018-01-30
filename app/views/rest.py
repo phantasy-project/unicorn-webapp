@@ -18,6 +18,7 @@ from ..auth import auth
 from ..utils import check_code
 from ..utils import eval_code
 from ..fields import function_fields
+from ..viz import create_plot
 
 
 def request_json():
@@ -34,19 +35,25 @@ class FunctionAPI(Resource):
         self.rp.add_argument('args', type=str, location='json')
         self.rp.add_argument('description', type=str, location='json')
         self.rp.add_argument('code', type=str, location='json')
+        self.rp.add_argument('data_x', type=str, location='json')
+        self.rp.add_argument('data_y', type=str, location='json')
         super(FunctionAPI, self).__init__()
 
     def get(self, name):
         func = Function.query.filter(Function.name==name).first()
         if func is None:
             abort(404)
+        script, div = create_plot(func)
+        f = marshal(func, function_fields)
 
         if request_json():
-            return {'function': marshal(func, function_fields)}
+            return {'function': funcs}
         return Response(
                     render_template('show_item.html',
                         title="Unicorn - Function",
-                        item=marshal(func, function_fields)),
+                        item=f,
+                        data_div=div, data_script=script,
+                        ),
                     mimetype='text/html')
 
     @auth.login_required
@@ -88,6 +95,10 @@ class FunctionListAPI(Resource):
                 location='json')
         self.rp.add_argument('author', type=str, default='',
                 location='json')
+        self.rp.add_argument('data_x', type=str, default='',
+                location='json')
+        self.rp.add_argument('data_y', type=str, default='',
+                location='json')
         super(FunctionListAPI, self).__init__()
 
     def get(self):
@@ -115,7 +126,7 @@ class FunctionListAPI(Resource):
                 else: # does not work
                     u = User(nickname=func.get('author'), email='TBA')
                     db.session.add(u)
-                
+
             code = check_code(func.get('code'))
             if not code:
                 return {"error": "Invalid code"}, 406
@@ -126,6 +137,8 @@ class FunctionListAPI(Resource):
                              code=code,
                              description=func.get('description'),
                              args=func.get('args'),
+                             data_x=func.get('data_x'),
+                             data_y=func.get('data_y'),
                     )
             db.session.add(new_f)
             db.session.commit()
@@ -137,15 +150,16 @@ class FunctionExecAPI(Resource):
         func = Function.query.filter(Function.name==name).first()
         if func is None:
             abort(404)
-        
         inp, oup = eval_code(func, **dict(request.args.items()))
         if inp is not None and oup is not None:
             setattr(func, 'lastin', str(inp))
             setattr(func, 'lastout', str(oup))
             setattr(func, 'invoked', func.invoked + 1)
+            func.append_hit_ts()
             db.session.commit()
-        else:
-            setattr(func, 'invoked', func.invoked + 1)
-            db.session.commit()
+
+        #else:
+        #    setattr(func, 'invoked', func.invoked + 1)
+        #    db.session.commit()
 
         return {'result': oup}
