@@ -50,7 +50,7 @@ class FunctionAPI(Resource):
         f = marshal(func, function_fields)
 
         if request_json():
-            return {'function': funcs}
+            return {'function': f}
         return Response(
                     render_template('show_item.html',
                         title="Unicorn - Function",
