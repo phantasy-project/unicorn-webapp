@@ -8,5 +8,4 @@ yapf
 pyopenssl
 pymysql
 passlib
-bokeh==0.12.9
-pandas
+bokeh==0.12.13
