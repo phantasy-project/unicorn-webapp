@@ -1,27 +1,3 @@
-@font-face {
-    font-family: 'Trebuchet';
-    font-weight: normal;
-    font-style : normal;
-    src: url('fonts/Trebuchet_MS.ttf') format('truetype');
-}
-@font-face {
-    font-family: 'Trebuchet';
-    font-weight: bold;
-    font-style : normal;
-    src: url('fonts/Trebuchet_MS_Bold.ttf') format('truetype');
-}
-@font-face {
-    font-family: 'Trebuchet';
-    font-weight: normal;
-    font-style : italic;
-    src: url('fonts/Trebuchet_MS_Italic.ttf') format('truetype');
-}
-@font-face {
-    font-family: 'Trebuchet';
-    font-weight: bold;
-    font-style : italic;
-    src: url('fonts/Trebuchet_MS_Bold_Italic.ttf') format('truetype');
-}
 .mybs{
     margin: 20px;
 }
@@ -41,6 +17,9 @@
     border:0;
     border-bottom:1px solid black;
 }
+
+/*
 html, body {
-    font-family: 'Trebuchet', sans-serif !important;
+    font-family: 'Trebuchet MS', sans-serif !important;
 }
+*/
