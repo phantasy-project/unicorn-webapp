@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+import json
 
 from flask import abort
 from flask import request
@@ -99,10 +100,8 @@ class FunctionListAPI(Resource):
                 location='json')
         self.rp.add_argument('author', type=str, default='',
                 location='json')
-        self.rp.add_argument('data_x', type=str, default='',
-                location='json')
-        self.rp.add_argument('data_y', type=str, default='',
-                location='json')
+        self.rp.add_argument('data_x', type=str, location='json')
+        self.rp.add_argument('data_y', type=str, location='json')
         super(FunctionListAPI, self).__init__()
 
     def get(self):
@@ -156,7 +155,7 @@ class FunctionExecAPI(Resource):
             abort(404)
         inp, oup = eval_code(func, **dict(request.args.items()))
         if inp is not None and oup is not None:
-            setattr(func, 'lastin', str(inp))
+            setattr(func, 'lastin', json.dumps(inp))
             setattr(func, 'lastout', str(oup))
             setattr(func, 'invoked', func.invoked + 1)
             func.append_hit_ts()
