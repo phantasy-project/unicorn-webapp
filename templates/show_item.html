@@ -54,26 +54,29 @@ $(function() {
         </div>
         <div class="panel-body">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-lg-5">
             {% for k, v in item.items()|sort if k != 'code' %}
 
             <p class="text-uppercase"><strong>{{ k }}</strong></p>
             {% if k == 'udef' %}
             <pre class="mypre"><code class="python">{{ v }}</code></pre>
+            {% elif k == 'uri' %}
+            <p><a href={{ v }}>{{ v }}</a></p>
             {% else %}
             <p>{{ v }}</p>
             {% endif %}
 
             {% endfor %}
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <div>
-                    <p class="text-uppercase"><strong>Data Curve (Engineering&rarr;Physics)</strong></p>
+                    <p class="text-uppercase"><strong>Data Curve (Engineering (X:I)&rarr;Physics (Y:B/G))</strong></p>
                 </div>
                 {{ data_div|safe }}
                 {{ data_script|safe }}
+                <div style="margin:0 0 10em 0;"></div>
                 <div>
-                    <p class="text-uppercase"><strong>Trend</strong></p>
+                    <p class="text-uppercase"><strong>Trend (X:T, Y:Hit#)</strong></p>
                 </div>
                 {{ trend_div|safe }}
                 {{ trend_script|safe }}

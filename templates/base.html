@@ -24,7 +24,6 @@
         <script type="text/javascript" src="{{ url_for('static', filename='bokeh/bokeh-0.12.9.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='bokeh/bokeh-widgets-0.12.9.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='bokeh/bokeh-tables-0.12.9.min.js') }}"></script>
-
     </head>
     </body>
         <div class="mybs">
@@ -50,9 +49,9 @@
         </div>
         {% block container %}{% endblock %}
         <footer>
-        <div class="footer-copyright navbar-fixed-bottom text-center">
-            <div class="container">
-                &copy; 2017 Copyright <a href="https://frib.msu.edu/" target="_blank"> Facility for Rare Isotope Beams, Michigan State University. </a>
+        <div class="navbar navbar-default navbar-fixed-bottom text-center">
+            <div class="container navbar-brand">
+                &copy; 2017 Copyright <a href="https://frib.msu.edu/" target="_blank"> Facility for Rare Isotope Beams</a>, Michigan State University.
             </div>
         </div>
         </footer>

@@ -10,15 +10,10 @@ $(function(){
 });
 </script>
 
-<!--
-<link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet">
--->
-
 <div class="container">
-    <h2 class="text-center">
-        Welcome to the UNICORN service<br/>
-        <small style="font-family:monospace;">Interpret the unit between physics and engineering</small>
-    </h2>
+    <h2 class="text-center" style="letter-spacing:6px;">
+        UNICORN</h2>
+    <p class="lead text-center" style="font-family:monospace;">Interpret the unit between physics and engineering</p>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="text text-danger">Features Highlight</h4>
@@ -43,8 +38,10 @@ $(function(){
                 <thead>
                     <tr>
                         <th class="col-sm-2">Name</th>
-                        <th class="col-sm-4">Hit Count</th>
-                        <th class="col-sm-6">Last Updated</th>
+                        <th class="col-sm-2">Hit Count</th>
+                        <th class="col-sm-3">Last In</th>
+                        <th class="col-sm-3">Last Out</th>
+                        <th class="col-sm-2">Last Updated</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,6 +49,16 @@ $(function(){
                     <tr>
                         <td><a href={{ url_for('function', name=f.name) }}>{{ f.name }}</a></td>
                         <td>{{ f.invoked }}</td>
+                        {% if f.lastin == none %}
+                        <td>-</td>
+                        {% else %}
+                        <td>{{ f.lastin }}</td>
+                        {% endif %}
+                        {% if f.lastout == none %}
+                        <td>-</td>
+                        {% else %}
+                        <td>{{ f.lastout }}</td>
+                        {% endif %}
                         <td>{{ f.timestamp }}</td>
                     </tr>
                     {% endfor %}
