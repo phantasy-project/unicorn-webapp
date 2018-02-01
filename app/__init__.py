@@ -22,26 +22,7 @@ migrate = Migrate(app, db)
 
 api = Api(app)
 
-
-from .models import Function
-from .fields import function_fields
-from flask_restful import marshal
-
-from flask import Response
-from flask import render_template
-
-@app.route('/')
-def index():
-    fs = Function.query.all()
-    #funcs = sorted([marshal(f, function_fields) for f in fs],
-    #        key=lambda x:x['invoked'], reverse=True)[:100]
-    funcs = [marshal(f, function_fields) for f in fs] # sort by dataTables.
-    return Response(
-            render_template('index.html',
-                title='Unicorn Service',
-                funcs=funcs),
-            mimetype='text/html')
-
+from app import routes
 
 from .views import FunctionAPI
 from .views import FunctionListAPI
