@@ -1,0 +1,25 @@
+.mybs{
+    margin: 20px;
+}
+.mynavbar {
+    font-weight: 550;
+    color: #2E3436;
+    background-color: #F9F9F9;
+}
+.mypre {
+    border: 0.5px dashed lightgrey;
+    border-radius: 2px;
+    padding: 0px;
+    font-weight: bold;
+    margin: 0 0 0 0;
+}
+.myborder {
+    border:0;
+    border-bottom:1px solid black;
+}
+
+/*
+html, body {
+    font-family: 'Trebuchet MS', sans-serif !important;
+}
+*/
