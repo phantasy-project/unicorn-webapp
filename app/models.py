@@ -63,19 +63,28 @@ class Function(db.Model):
 
     def get_hit_ts(self):
         try:
-            return pickle.loads(self.hit_ts)
+            if isinstance(self.hit_ts, str):
+                return pickle.loads(self.hit_ts.encode(), encoding='bytes')
+            else:
+                return pickle.loads(self.hit_ts)
         except:
             return []
 
     def get_x(self):
         try:
-            return pickle.loads(self.data_x)
+            if isinstance(self.data_x, str):
+                return pickle.loads(self.data_x.encode(), encoding='bytes')
+            else:
+                return pickle.loads(self.data_x)
         except:
             return []
 
     def get_y(self):
         try:
-            return pickle.loads(self.data_y)
+            if isinstance(self.data_y, str):
+                return pickle.loads(self.data_y.encode(), encoding='bytes')
+            else:
+                return pickle.loads(self.data_y)
         except:
             return []
 

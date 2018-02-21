@@ -34,7 +34,7 @@ def to_dict(d):
 def eval_code(f, **kws):
     kwargs = to_dict(kws)
     fncode, ns = compile(f.code, "<string>", "exec"), {}
-    exec fncode in ns
+    exec(fncode, ns)
     if not f.args:
         return kwargs, ns.get('f')(**kwargs)
     else:
