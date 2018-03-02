@@ -18,6 +18,7 @@ from ..models import db
 from ..auth import auth
 from ..utils import check_code
 from ..utils import eval_code
+from ..utils import unpickle
 from ..fields import function_fields
 from ..viz import create_data_plot
 from ..viz import create_trend_plot
@@ -69,9 +70,12 @@ class FunctionAPI(Resource):
         args = self.rp.parse_args()
         for k, v in args.items():
             if v is not None:
-                if k in ['code']:
+                if k in ('code'):
                     v = check_code(v)
-                setattr(func, k, v)
+                if k in ('data_x', 'data_y'):
+                    setattr(func, k, unpickle(v))
+                else:
+                    setattr(func, k, v)
 
         db.session.commit()
         return {'function': marshal(func, function_fields)}
@@ -140,8 +144,9 @@ class FunctionListAPI(Resource):
                              code=code,
                              description=func.get('description'),
                              args=func.get('args'),
-                             data_x=func.get('data_x'),
-                             data_y=func.get('data_y'),
+                             data_x=unpickle(func.get('data_x')),
+                             data_y=unpickle(func.get('data_y')),
+                             hit_ts=[],
                     )
             db.session.add(new_f)
             db.session.commit()
@@ -158,11 +163,7 @@ class FunctionExecAPI(Resource):
             setattr(func, 'lastin', json.dumps(inp))
             setattr(func, 'lastout', str(oup))
             setattr(func, 'invoked', func.invoked + 1)
-            func.append_hit_ts()
+            func.hit_ts = func.hit_ts + [datetime.now()]
             db.session.commit()
-
-        #else:
-        #    setattr(func, 'invoked', func.invoked + 1)
-        #    db.session.commit()
 
         return {'result': oup}

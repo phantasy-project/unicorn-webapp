@@ -22,8 +22,8 @@ def create_data_plot(f):
     """
     try:
         p = figure(tools=TOOLS, plot_height=300, plot_width=600)
-        x = f.get_x()
-        y = f.get_y()
+        x = f.data_x
+        y = f.data_y
         xx = np.linspace(x.min(), x.max(), 100)
         yy = [eval_code(f, x=i)[-1] for i in xx]
         p.circle(x, y, size=6,
@@ -41,7 +41,7 @@ def create_trend_plot(f):
     f: Function object
     """
     try:
-        x = f.get_hit_ts()
+        x = f.hit_ts
         to_ts = np.vectorize(lambda x: (x - datetime(1970,1,1)).total_seconds())
         from_ts = np.vectorize(lambda x: datetime.utcfromtimestamp(x))
 
