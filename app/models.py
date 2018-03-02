@@ -54,40 +54,6 @@ class Function(db.Model):
     # hit history with timestamp (array)
     hit_ts = db.Column(db.PickleType)
 
-    def append_hit_ts(self):
-        """Append new ts to hit_ts.
-        """
-        self.hit_ts_list = self.get_hit_ts()
-        self.hit_ts_list.append(datetime.now())
-        self.hit_ts = pickle.dumps(self.hit_ts_list)
-
-    def get_hit_ts(self):
-        try:
-            if isinstance(self.hit_ts, str):
-                return pickle.loads(self.hit_ts.encode(), encoding='bytes')
-            else:
-                return pickle.loads(self.hit_ts)
-        except:
-            return []
-
-    def get_x(self):
-        try:
-            if isinstance(self.data_x, str):
-                return pickle.loads(self.data_x.encode(), encoding='bytes')
-            else:
-                return pickle.loads(self.data_x)
-        except:
-            return []
-
-    def get_y(self):
-        try:
-            if isinstance(self.data_y, str):
-                return pickle.loads(self.data_y.encode(), encoding='bytes')
-            else:
-                return pickle.loads(self.data_y)
-        except:
-            return []
-
     def udef(self):
         return self.code.strip()
 
