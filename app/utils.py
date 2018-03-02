@@ -3,6 +3,8 @@
 from datetime import datetime
 import pytz
 import tzlocal
+import pickle
+import codecs
 
 from yapf.yapflib.yapf_api import FormatCode
 
@@ -40,3 +42,11 @@ def eval_code(f, **kws):
     else:
         kvs = {k:v for k,v in kwargs.items() if k in f.args.split(',')}
         return kvs, ns.get('f')(**kvs)
+
+
+def unpickle(s, coding='base64'):
+    """Unpicke input string (REST parameter) to object,
+    e.g., *s* is pickled by the following way:
+    ``codecs.encode(pickle.dumps(obj), 'base64').decode()``
+    """
+    return pickle.loads(codecs.decode(s.encode(), coding))
