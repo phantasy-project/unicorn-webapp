@@ -5,6 +5,7 @@ CONF := unicorn.conf
 all: clean service
 
 conf:
+	[ ! -e /var/log/unicorn ] && sudo mkdir /var/log/unicorn && \
 	[ ! -e /etc/apache2/sites-available/${CONF} ] && \
 		sudo cp unicorn.conf /etc/apache2/sites-available/ && \
 		sudo ln -s /etc/apache2/sites-available/${CONF} /etc/apache2/sites-enabled
@@ -14,5 +15,5 @@ service: conf
 
 clean:
 	sudo rm -rf /etc/apache2/sites-available/${CONF} \
-		   		/etc/apache2/sites-enabled/${CONF}
-
+		   		/etc/apache2/sites-enabled/${CONF} \
+				/var/log/unicorn
