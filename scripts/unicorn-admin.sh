@@ -50,15 +50,26 @@ clean_site()
            /var/log/unicorn 2>/dev/null
 }
 
+init_db()
+{
+    export FLASK_APP=${UNICORN_PKG_PATH}/application.py &&
+        flask3 db init && \
+        flask3 db migrate -m "Initialize database" && \
+        flask3 db upgrade && \
+        init_admin
+}
+
 help_msg()
 {
     echo "Usage: `basename $0` <command>"
     echo
     echo "Valid command (run with root):"
     echo "  configure"
-    echo "    Apply apache site configuation for UNICORN service"
+    echo "    Apply apache site configuations for UNICORN service"
     echo "  clean"
-    echo "    Clean configurations"
+    echo "    Clean apache site configurations"
+    echo "  init_db"
+    echo "    Initialize database (MySQL/MariaDB) ('unicorn' database is required)"
 }
 
 case "$1" in
@@ -69,6 +80,9 @@ case "$1" in
     clean)
         clean_site
         restart_apache
+    ;;
+    init_db)
+        init_db
     ;;
     *)
         help_msg
