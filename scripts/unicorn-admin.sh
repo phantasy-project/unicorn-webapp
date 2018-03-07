@@ -52,6 +52,7 @@ clean_site()
 
 init_db()
 {
+    cd ${UNICORN_PKG_PATH} && rm -rf migrations
     export FLASK_APP=${UNICORN_PKG_PATH}/application.py &&
         flask3 db init && \
         flask3 db migrate -m "Initialize database" && \
