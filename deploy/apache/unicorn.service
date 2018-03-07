@@ -1,0 +1,13 @@
+[Unit]
+Description=Unit Interpreting Service
+After=network.target
+
+[Service]
+User=devuser
+Group=devuser
+#WorkingDirectory=/usr/share/unicorn/
+Environment="PYTHONPATH=/usr/share/unicorn"
+ExecStart=/home/tong/unicorn-env/bin/gunicorn --workers 3 --bind unix:/var/log/gunicorn/unicorn.sock -m 007 wsgi
+
+[Install]
+WantedBy=multi-user.target
