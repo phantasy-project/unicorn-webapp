@@ -62,6 +62,34 @@ init_db()
     find ${UNICORN_PKG_PATH} -name '__pycache__' -print0 | xargs -0 rm -rf
 }
 
+reload_conf()
+{
+    if [ -f ~/.unicorn/unicorn.ini ] ; then
+        unicorn_ini_path=~/.unicorn/unicorn.ini
+    elif [ -f /etc/unicorn/unicorn.ini ] ; then
+        unicorn_ini_path=/etc/unicorn/unicorn.ini
+    elif [ -f ${UNICORN_PKG_PATH}/unicorn.ini ]; then
+        unicorn_ini_path=${UNICORN_PKG_PATH}/unicorn.ini
+    else
+        echo "'unicorn.ini' is unable to locate."
+        exit 1
+    fi
+    wsgi_user=$(`which grep` -i "\<user\>" ${unicorn_ini_path} \
+        | awk -F'=' '{print $2}' | xargs)
+    wsgi_group=$(`which grep` -i "\<group\>" ${unicorn_ini_path} \
+        | awk -F'=' '{print $2}' | xargs)
+    wsgi_threads=$(`which grep` -i "\<threads\>" ${unicorn_ini_path} \
+        | awk -F'=' '{print $2}' | xargs)
+    log_level=$(`which grep` -i "\<level\>" ${unicorn_ini_path} \
+        | awk -F'=' '{print $2}' | xargs)
+    sed -i "/WSGIDaemon/ \
+        s/\(user\).*\(group\).*\(threads\).*/\1=${wsgi_user} \2=${wsgi_group} \3=${wsgi_threads}/" \
+        ${DIR_SITE_AVAI}/${UNICORN_CONF}
+    sed -i "/LogLevel/ \
+        s/\(LogLevel\).*/\1 ${log_level}/" \
+        ${DIR_SITE_AVAI}/${UNICORN_CONF}
+}
+
 help_msg()
 {
     echo "Usage: `basename $0` <command>"
@@ -73,6 +101,8 @@ help_msg()
     echo "    Clean apache site configurations"
     echo "  init_db"
     echo "    Initialize database (MySQL/MariaDB) ('unicorn' database is required)"
+    echo "  reload"
+    echo "    Reload apache site configurations based on unicorn.ini"
 }
 
 case "$1" in
@@ -86,6 +116,10 @@ case "$1" in
     ;;
     init_db)
         init_db
+    ;;
+    reload)
+        reload_conf
+        restart_apache
     ;;
     *)
         help_msg
