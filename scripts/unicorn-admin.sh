@@ -105,20 +105,30 @@ help_msg()
     echo "    Reload apache site configurations based on unicorn.ini"
 }
 
+EG="\033[1;32m"
+fgcolor="\033[0m"
+
 case "$1" in
     configure)
+        echo -e ${EG}"Install site configuration for UNICORN..."${fgcolor}
         install_site
+        echo -e ${EG}"Restart Apache service..."${fgcolor}
         restart_apache
     ;;
     clean)
+        echo -e ${EG}"Clean site configuration for UNICORN..."${fgcolor}
         clean_site
+        echo -e ${EG}"Restart Apache service..."${fgcolor}
         restart_apache
     ;;
     init_db)
+        echo -e ${EG}"Initialize database model..."${fgcolor}
         init_db
     ;;
     reload)
+        echo -e ${EG}"Reload site configuration with unicorn.ini file..."${fgcolor}
         reload_conf
+        echo -e ${EG}"Restart Apache service..."${fgcolor}
         restart_apache
     ;;
     *)
