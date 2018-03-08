@@ -58,6 +58,8 @@ init_db()
         flask3 db migrate -m "Initialize database" && \
         flask3 db upgrade && \
         init_admin
+    rm -rf migrations
+    find ${UNICORN_PKG_PATH} -name '__pycache__' -print0 | xargs -0 rm -rf
 }
 
 help_msg()
