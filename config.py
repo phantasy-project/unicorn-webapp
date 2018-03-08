@@ -1,7 +1,6 @@
 import os
 
 DEBUG = False
-#SERVER_NAME = '192.168.31.115:5000'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -11,8 +10,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # MySQL
 SQLALCHEMY_DATABASE_URI = \
     'mysql+pymysql://{username}:{password}@{host}/unicorn'.format(
-        username='dev',
-        password='dev',
+        username='unicorn',
+        password='unicorn#',
         host='localhost')
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
