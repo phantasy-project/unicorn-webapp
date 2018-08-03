@@ -38,7 +38,11 @@ class User(db.Model):
 class Function(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
-    invoked = db.Column(db.Integer, index=True)
+    ename = db.Column(db.String(64), index=True)
+    phy_field = db.Column(db.String(16), default="PHY")
+    eng_field = db.Column(db.String(16), default="ENG")
+    flag_p2e = db.Column(db.Boolean, default=False)
+    invoked = db.Column(db.Integer, index=True, default=0)
     code = db.Column(db.String(1000))
     timestamp = db.Column(db.DateTime,
                           default=datetime.utcnow,
@@ -52,7 +56,7 @@ class Function(db.Model):
     data_x = db.Column(db.PickleType)
     data_y = db.Column(db.PickleType)
     # hit history with timestamp (array)
-    hit_ts = db.Column(db.PickleType)
+    hit_ts = db.Column(db.PickleType, default=[])
 
     def udef(self):
         return self.code.strip()
@@ -64,6 +68,11 @@ class Function(db.Model):
         #return User.query.filter(User.id == 1).first().nickname
         return User.query.filter().first().nickname
 
+    def from_field(self):
+        return self.phy_field if self.flag_p2e else self.eng_field
+
+    def to_field(self):
+        return self.eng_field if self.flag_p2e else self.phy_field
+
     def __repr__(self):
         return "<Function '{}'>".format(self.name)
-
