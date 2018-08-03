@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import os
-from configparser import ConfigParser
+
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import SafeConfigParser as ConfigParser
 
 
 def find_conf():
@@ -24,16 +28,25 @@ def find_conf():
 
 conf = ConfigParser()
 conf.read(find_conf())
-db_user, db_pass = conf['DATABASE']['username'], conf['DATABASE']['password']
-db_host, db_name = conf['DATABASE']['hostname'], conf['DATABASE']['database']
 
-# MySQL/MariaDB
-SQLALCHEMY_DATABASE_URI = \
-    'mysql+pymysql://{username}:{password}@{hostname}/{database}'.format(
-        username=db_user,
-        password=db_pass,
-        hostname=db_host,
-        database=db_name)
+db_engine = conf['DB_ENGINE']['name'].lower()
+if db_engine == 'sqlite':
+    # SQLite
+    rootpath = os.path.abspath(conf['SQLITE_DB'].get('rootpath', os.path.dirname(__file__)))
+    filename = conf['SQLITE_DB'].get('filename', 'unicorn.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(rootpath, filename)
+elif db_engine in ('mysql', 'mariadb'):
+    db_user, db_pass = conf['MYSQL_DB']['username'], conf['MYSQL_DB']['password']
+    db_host, db_name = conf['MYSQL_DB']['hostname'], conf['MYSQL_DB']['database']
+    # MySQL/MariaDB
+    SQLALCHEMY_DATABASE_URI = \
+        'mysql+pymysql://{username}:{password}@{hostname}/{database}'.format(
+            username=db_user,
+            password=db_pass,
+            hostname=db_host,
+            database=db_name)
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 DEBUG = conf['LOGGING']['debug'].lower() == 'true'
+
+TEMPLATES_AUTO_RELOAD = True
