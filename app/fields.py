@@ -5,6 +5,12 @@ from flask_restful import fields
 
 function_fields = {
     'name': fields.String,
+    'ename': fields.String,
+    'phy_field': fields.String,
+    'eng_field': fields.String,
+    'from_field': fields.String(attribute=lambda x:x.from_field()),
+    'to_field': fields.String(attribute=lambda x:x.to_field()),
+    'flag_p2e': fields.Boolean,
     'udef': fields.String(attribute=lambda x:x.udef()),
     'code': fields.String,
     'invoked': fields.Integer,
