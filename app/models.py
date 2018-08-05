@@ -39,9 +39,10 @@ class Function(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     ename = db.Column(db.String(64), index=True)
-    phy_field = db.Column(db.String(16), default="PHY")
-    eng_field = db.Column(db.String(16), default="ENG")
-    flag_p2e = db.Column(db.Boolean, default=False)
+    # from field
+    from_field = db.Column(db.String(16), default="ENG")
+    # to field
+    to_field = db.Column(db.String(16), default="PHY")
     invoked = db.Column(db.Integer, index=True, default=0)
     code = db.Column(db.String(1000))
     timestamp = db.Column(db.DateTime,
@@ -68,11 +69,14 @@ class Function(db.Model):
         #return User.query.filter(User.id == 1).first().nickname
         return User.query.filter().first().nickname
 
-    def from_field(self):
-        return self.phy_field if self.flag_p2e else self.eng_field
-
-    def to_field(self):
-        return self.eng_field if self.flag_p2e else self.phy_field
+    def fn_name(self):
+        # Return function name with the following rule:
+        # 
+        # '_'.join([ename, from_field, 'to', to_field])
+        #
+        return '{ename}_{f_from}_to_{f_to}'.format(
+                ename=self.ename,
+                f_from=self.from_field, f_to=self.to_field)
 
     def __repr__(self):
         return "<Function '{}'>".format(self.name)
