@@ -8,7 +8,7 @@ flask-migrate==2.1.1
 flask_sqlalchemy==1.0
 tzlocal==1.5.1
 yapf==0.20.1
-pyopenssl==0.14
+pyopenssl
 pymysql==0.8.0
 passlib==1.7.1
 bokeh==0.12.13
