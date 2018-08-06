@@ -7,6 +7,7 @@ from bokeh.models.tools import HoverTool
 from bokeh.models.tools import ResetTool
 from bokeh.models.tools import SaveTool
 from bokeh.models.tools import BoxZoomTool
+from bokeh.models import DatetimeTickFormatter
 import numpy as np
 from datetime import datetime
 
@@ -29,7 +30,7 @@ def create_data_plot(f):
         p.circle(x, y, size=6,
                  alpha=0.8,
                  color='magenta')
-        p.line(xx, yy, color='blue', alpha=0.6, line_dash='solid')
+        p.line(xx, yy, color='blue', line_width=1.5, alpha=0.6, line_dash='solid')
         return components(p)
     except:
         return '<div></div>', '<div></div>'
@@ -52,7 +53,11 @@ def create_trend_plot(f):
 
         p = figure(tools=TOOLS, plot_height=300, plot_width=600,
                    x_axis_type='datetime')
-        p.vbar(x=xx, top=yy, width=1.8e6, alpha=0.8)
+        p.xaxis.formatter = DatetimeTickFormatter(
+                                minutes=["%H:%M %d/%b/%Y"],
+                            )
+        p.xaxis.major_label_orientation = np.pi/4
+        p.vbar(x=xx, top=yy, width=3600, alpha=0.8, color='magenta')
         return components(p)
     except:
         return '<div></div>', '<div></div>'
