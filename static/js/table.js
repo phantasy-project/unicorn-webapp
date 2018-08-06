@@ -12,7 +12,7 @@ function format(d) {
 $(document).ready(function() {
     var table = $("#func-all").DataTable({
         "columns": [
-            null,null,null,null,
+            null,null,null,null,null,null,null,
             {'visible': true},
             null,
         ],
@@ -27,7 +27,7 @@ $(document).ready(function() {
             row.child.hide();
             tr.removeClass('shown');
         } else {
-            row.child(format(row.data()[4])).show();
+            row.child(format(row.data()[7])).show();
             tr.addClass('shown');
 
             $('pre code').each(function(i, block) {
