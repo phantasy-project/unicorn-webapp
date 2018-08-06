@@ -96,6 +96,9 @@ class FunctionListAPI(Resource):
         self.rp = reqparse.RequestParser()
         self.rp.add_argument('name', type=str, required=True,
                 help='No function name provided', location='json')
+        self.rp.add_argument('ename', type=str, location='json')
+        self.rp.add_argument('from_field', type=str, location='json')
+        self.rp.add_argument('to_field', type=str, location='json')
         self.rp.add_argument('code', type=str, required=True,
                 help='No code found', location='json')
         self.rp.add_argument('description', type=str, default='TBA',
@@ -139,6 +142,9 @@ class FunctionListAPI(Resource):
                 return {"error": "Invalid code"}, 406
 
             new_f = Function(name=f_name, invoked=0,
+                             ename=func.get('ename'),
+                             from_field=func.get('from_field'),
+                             to_field=func.get('to_field'),
                              timestamp=datetime.utcnow(),
                              author=u,
                              code=code,
@@ -159,6 +165,7 @@ class FunctionExecAPI(Resource):
         if func is None:
             abort(404)
         inp, oup = eval_code(func, **dict(request.args.items()))
+
         if inp is not None and oup is not None:
             setattr(func, 'lastin', json.dumps(inp))
             setattr(func, 'lastout', str(oup))
