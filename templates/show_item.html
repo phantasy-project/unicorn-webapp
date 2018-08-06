@@ -9,6 +9,8 @@ $(function() {
 });
 </script>
 
+{% set hidden_keys = ['code', 'description', 'lastin', 'lastout', 'author'] %}
+
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -55,7 +57,12 @@ $(function() {
         <div class="panel-body">
         <div class="row">
             <div class="col-lg-5">
-            {% for k, v in item.items()|sort if k != 'code' %}
+            <p class="text-uppercase"><strong>Last Input</strong></p>
+            <p class="text-danger"><strong>{{ item.lastin }}</strong></p>
+            <p class="text-uppercase"><strong>Last Output</strong></p>
+            <p class="text-danger"><strong>{{ item.lastout }}</strong></p>
+
+            {% for k, v in item.items()|sort if k not in hidden_keys %}
 
             <p class="text-uppercase"><strong>{{ k }}</strong></p>
             {% if k == 'udef' %}
@@ -70,13 +77,13 @@ $(function() {
             </div>
             <div class="col-lg-7">
                 <div>
-                    <p class="text-uppercase"><strong>Data Curve (Engineering (X:I)&rarr;Physics (Y:B/G))</strong></p>
+                    <p class="text-uppercase"><strong>Data [{{ item.description }}]</strong></p>
                 </div>
                 {{ data_div|safe }}
                 {{ data_script|safe }}
-                <div style="margin:0 0 10em 0;"></div>
+                <div style="margin:0 0 6em 0;"></div>
                 <div>
-                    <p class="text-uppercase"><strong>Trend (X:T, Y:Hit#)</strong></p>
+                    <p class="text-uppercase"><strong>Trend [X:T, Y:Hit#]</strong></p>
                 </div>
                 {{ trend_div|safe }}
                 {{ trend_script|safe }}

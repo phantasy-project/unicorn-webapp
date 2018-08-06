@@ -37,7 +37,7 @@ $(function() {
             }
         });
     });
-    
+
     // run function
     $(".btn-run-function").click(function() {
         var name   = $(this).data('name');
