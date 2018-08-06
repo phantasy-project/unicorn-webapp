@@ -14,7 +14,10 @@
     <thead>
     <tr>
         <th></th>
-        <th>Name</th>
+        <th>Function Name</th>
+        <th>Element Name</th>
+        <th>From Field</th>
+        <th>To Field</th>
         <th>Description</th>
         <th>Invoked</th>
         <th>Definition</th>
@@ -26,6 +29,9 @@
     <tr>
         <td class='details-control'></td>
         <td><a href={{ item.uri }}><strong>{{ item.name }}</strong></a></td>
+        <td>{{ item.ename }}</td>
+        <td>{{ item.from_field }}</td>
+        <td>{{ item.to_field }}</td>
         <td>{{ item.description }}</td>
         <td>{{ item.invoked }}</td>
         <td class="truncated">{{ item.udef }}</td>
