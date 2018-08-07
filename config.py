@@ -32,7 +32,8 @@ conf.read(find_conf())
 db_engine = conf['DB_ENGINE']['name'].lower()
 if db_engine == 'sqlite':
     # SQLite
-    rootpath = os.path.abspath(conf['SQLITE_DB'].get('rootpath', os.path.dirname(__file__)))
+    rootpath = os.path.abspath(os.path.expanduser(
+        conf['SQLITE_DB'].get('rootpath', os.path.dirname(__file__))))
     filename = conf['SQLITE_DB'].get('filename', 'unicorn.sqlite')
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(rootpath, filename)
 elif db_engine in ('mysql', 'mariadb'):
