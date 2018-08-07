@@ -54,11 +54,12 @@ init_db()
 {
     # cd ${UNICORN_PKG_PATH} && rm -rf migrations
     cd /tmp
+    [ -e migrations ] && rm -rf migrations
     export FLASK_APP=${UNICORN_PKG_PATH}/application.py &&
         flask3 db init && \
         flask3 db migrate -m "Initialize database" && \
         flask3 db upgrade && \
-        unicorn-init_admin
+        unicorn-init-admin
     rm -rf migrations
     # find ${UNICORN_PKG_PATH} -name '__pycache__' -print0 | xargs -0 rm -rf
 }
