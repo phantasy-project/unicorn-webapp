@@ -92,6 +92,14 @@ reload_conf()
         ${DIR_SITE_AVAI}/${UNICORN_CONF}
 }
 
+run_app()
+{
+    PORT=${2:-5000}
+    export FLASK_APP=${UNICORN_PKG_PATH}/application.py &&
+        flask3 run -p ${PORT} --with-threads
+}
+
+
 help_msg()
 {
     echo "Usage: `basename $0` <command>"
@@ -105,6 +113,8 @@ help_msg()
     echo "    Initialize database (MySQL/MariaDB) ('unicorn' database is required)"
     echo "  reload"
     echo "    Reload apache site configurations based on unicorn.ini"
+    echo " run [PORT]"
+    echo "    Run web application with PORT, default port is 5000"
 }
 
 EG="\033[1;32m"
@@ -132,6 +142,10 @@ case "$1" in
         reload_conf
         echo -e ${EG}"Restart Apache service..."${fgcolor}
         restart_apache
+    ;;
+    run)
+        echo -e ${EG}"Running UNICORN webapp..."${fgcolor}
+        run_app $@
     ;;
     *)
         help_msg
