@@ -6,9 +6,16 @@ from flask_restful import marshal
 
 from flask import Response
 from flask import render_template
+from flask import request
 
 from app import app
 
+
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
 
 @app.route('/')
 def index():
@@ -30,3 +37,9 @@ def help():
                 title='Unicorn Service - Help',
                 ),
             mimetype='text/html')
+
+
+@app.route('/shutdown', methods=['POST'])
+def shutdown():
+    shutdown_server()
+    return "Server shutting down..."
