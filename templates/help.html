@@ -78,22 +78,22 @@
             evoked in Python as the following:
             <pre class="mypre"><code class="python">import unicorn
 # admin client to UNICORN service
-admin_client = unicorn.AdminClient('http://localhost/unicorn')
+admin_client = unicorn.AdminClient('http://localhost:5000')
 # get all functions
 admin_client.get()
 # get function by name
-admin_client.get(name='FE_SCS1:SOLR_D0704-P')
+admin_client.get(name='FE_SCS1:SOLR_D0704_I_to_B')
 
 # api client, the base url + '/api/v1.0'
-api_client = unicorn.ApiClient('http://localhost/unicorn/api/v1.0')
+api_client = unicorn.ApiClient('http://localhost:5000/api/v1.0')
 
 # get function execution result
-api_client.get('FE_MEBT:Q_D1057-P', x=20)
-# output: {'result': 3.00896}
+api_client.get('FE_MEBT:Q_D1057_I_to_G', x=20)
+# output: {'result': 3.01323552445068}
 
 # get result from reverse function
-api_client.get('FE_MEBT:Q_D1057-N', x=3.00896)
-# output: {'result': 20.000000000000178}
+api_client.get('FE_MEBT:Q_D1057_G_to_I', x=3.01323552445068)
+# output: {'result': 19.99999999999546}
 </code></pre>
         </div>
     </div>
