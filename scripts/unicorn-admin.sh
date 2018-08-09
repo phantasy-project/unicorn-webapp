@@ -113,7 +113,7 @@ help_msg()
     echo "    Initialize database (MySQL/MariaDB) ('unicorn' database is required)"
     echo "  reload"
     echo "    Reload apache site configurations based on unicorn.ini"
-    echo " run [PORT]"
+    echo "  run [PORT]"
     echo "    Run web application with PORT, default port is 5000"
 }
 
