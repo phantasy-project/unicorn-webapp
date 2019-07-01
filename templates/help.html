@@ -2,81 +2,85 @@
 {% block container %}
 
 <div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card mt-3 border-info">
+        <div class="card-header">
             <h4 class="text text-danger">Features Highlight</h4>
         </div>
-        <div class="panel-body">
-            <dl class="dl-horizontal" style="font-size:100%;">
-                <dt>REST API</dt>
-                <dd class="text-info">REST APIs for applying the scaling rules from Python-client or web page</dd>
-                <dt>Device Information</dt>
-                <dd class="text-info">Represent devices with an informative way</dd>
-                <dt>Data Tracking</dt>
-                <dd class="text-info">Manage scaling rules in a friendly way</dd>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">REST APIs</dt>
+                <dd class="text-info col-sm-9">REST APIs for applying the scaling rules from Python-client or web page</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Device Information</dt>
+                <dd class="text-info col-sm-9">Represent devices with an informative way</dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-3">Data Visualization</dt>
+                <dd class="text-info col-sm-9">Manage scaling rules in a friendly way</dd>
             </dl>
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card mt-2 border-info">
+        <div class="card-header">
             <h4 class="text text-danger">Web Interface</h4>
         </div>
-        <div class="panel-body">
-            <div class="row">
-                <div class="col-xs-3">
-                    <a href='{{ url_for('static', filename='img/01.png') }}' class="thumbnail">
-                        <img src="{{ url_for('static', filename='img/01.png') }}" alt="01">
+        <div class="card-body">
+            <div class="row text-center text-lg-left">
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href='{{ url_for('static', filename='img/01.png') }}' class="d-block mb-4 h-100">
+                        <img src="{{ url_for('static', filename='img/01.png') }}" class="img-thumbnail" alt="01">
                     </a>
                 </div>
-                <div class="col-xs-3">
-                    <a href='{{ url_for('static', filename='img/02.png') }}' class="thumbnail">
-                        <img src="{{ url_for('static', filename='img/02.png') }}" alt="02">
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href='{{ url_for('static', filename='img/02.png') }}' class="d-block mb-4 h-100">
+                        <img src="{{ url_for('static', filename='img/02.png') }}" class="img-thumbnail" alt="02">
                     </a>
                 </div>
-                <div class="col-xs-3">
-                    <a href='{{ url_for('static', filename='img/03.png') }}' class="thumbnail">
-                        <img src="{{ url_for('static', filename='img/03.png') }}" alt="03">
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href='{{ url_for('static', filename='img/03.png') }}' class="d-block mb-4 h-100">
+                        <img src="{{ url_for('static', filename='img/03.png') }}" class="img-thumbnail" alt="03">
                     </a>
                 </div>
-                <div class="col-xs-3">
-                    <a href='{{ url_for('static', filename='img/04.png') }}' class="thumbnail">
-                        <img src="{{ url_for('static', filename='img/04.png') }}" alt="04">
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href='{{ url_for('static', filename='img/04.png') }}' class="d-block mb-4 h-100">
+                        <img src="{{ url_for('static', filename='img/04.png') }}" class="img-thumbnail" alt="04">
                     </a>
                 </div>
-                <div class="col-xs-3">
-                    <a href='{{ url_for('static', filename='img/05.png') }}' class="thumbnail">
-                        <img src="{{ url_for('static', filename='img/05.png') }}" alt="05">
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href='{{ url_for('static', filename='img/05.png') }}' class="d-block mb-4 h-100">
+                        <img src="{{ url_for('static', filename='img/05.png') }}" class="img-thumbnail" alt="05">
                     </a>
                 </div>
-                <div class="col-xs-3">
-                    <a href='{{ url_for('static', filename='img/06.png') }}' class="thumbnail">
-                        <img src="{{ url_for('static', filename='img/06.png') }}" alt="06">
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href='{{ url_for('static', filename='img/06.png') }}' class="d-block mb-4 h-100">
+                        <img src="{{ url_for('static', filename='img/06.png') }}" class="img-thumbnail" alt="06">
                     </a>
                 </div>
-                <div class="col-xs-3">
-                    <a href='{{ url_for('static', filename='img/07.png') }}' class="thumbnail">
-                        <img src="{{ url_for('static', filename='img/07.png') }}" alt="07">
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href='{{ url_for('static', filename='img/07.png') }}' class="d-block mb-4 h-100">
+                        <img src="{{ url_for('static', filename='img/07.png') }}" class="img-thumbnail" alt="07">
                     </a>
                 </div>
-                <div class="col-xs-3">
-                    <a href='{{ url_for('static', filename='img/08.png') }}' class="thumbnail">
-                        <img src="{{ url_for('static', filename='img/08.png') }}" alt="08">
+                <div class="col-lg-3 col-md-4 col-6">
+                    <a href='{{ url_for('static', filename='img/08.png') }}' class="d-block mb-4 h-100">
+                        <img src="{{ url_for('static', filename='img/08.png') }}" class="img-fluid img-thumbnail" alt="08">
                     </a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card mt-2 mb-5 border-info">
+        <div class="card-header">
             <h4 class="text text-danger">Python Client</h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             Install Python packages: <span style="font-family:monospace;">python-unicorn</span> or
-            <span style="font-family:monospace;">python3-unicorn</span></li>, then the REST APIs could be
-            evoked in Python as the following:
-            <pre class="mypre"><code class="python">import unicorn
+            <span style="font-family:monospace;">python3-unicorn</span></li>, then UNICORN service could be reached in Python as the following
+            snippet shows:
+            <pre class="mypre mt-2"><code class="python">import unicorn
 # admin client to UNICORN service
 admin_client = unicorn.AdminClient('http://localhost:5000')
 # get all functions
@@ -98,6 +102,5 @@ api_client.get('FE_MEBT:Q_D1057_G_to_I', x=3.01323552445068)
         </div>
     </div>
 </div>
-
 
 {% endblock %}

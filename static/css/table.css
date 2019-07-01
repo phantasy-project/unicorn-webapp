@@ -1,9 +1,9 @@
 td.details-control {
-    background: url('./icons/icon-plus.png') no-repeat center center;
+    background: url('./icons/arrow_down.svg') no-repeat center center;
     cursor: pointer;
 }
 tr.shown td.details-control {
-    background: url('./icons/icon-minus.png') no-repeat center center;
+    background: url('./icons/arrow_up.svg') no-repeat center center;
 }
 td {
     overflow: hidden;

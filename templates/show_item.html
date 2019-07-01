@@ -11,86 +11,112 @@ $(function() {
 
 {% set hidden_keys = ['code', 'description', 'lastin', 'lastout', 'author'] %}
 
-<div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3><tt style="color:red;">{{ item.name }}</tt>
-                <span class="btn-group pull-right">
-                    <span title="JSON Arguments" data-toggle="tooltip">
-                        <small><input type="text" name="input-arguments"
-                                      class="text-info myborder"
-                                      placeholder='e.g.: {"x":1, "y":2}...'
-                                      id="func-input-args">
-                        </small>
-                    </span>
-                    <span title="Evaluation Output" data-toggle="tooltip">
-                        <small>
-                               <input id="func-output" name="output results"
-                                      class="text-danger myborder"
-                                      placeholder='output...'
-                                      readonly>
-                        </small>
-                    </span>
-                    <span title='Run' data-toggle="tooltip">
-                        <button class="btn btn-default btn-run-function"
-                                data-name="{{ item.name }}"
-                                data-apiurl="{{ url_for('func', name=item.name) }}">
-                            <i class="glyphicon glyphicon-play"></i>
-                        </button>
-                    </span>
-                    <span title="Edit" data-toggle="tooltip">
-                        <button class="btn btn-default btn-edit-function"
-                                data-toggle="modal"
-                                data-title="Update Function"
-                                data-target="#update-function-modal"
-                                data-name="{{ item.name }}"
-                                data-args="{{ item.args }}"
-                                data-desc="{{ item.description }}"
-                                data-code="{{ item.code }}"
-                                data-url="{{ url_for('function', name=item.name) }}">
-                            <i class="glyphicon glyphicon-pencil"></i>
-                        </button>
-                    </span>
+<div class="container mt-3">
+<div class="row">
+    <div class="col-lg-6">
+        <!--element info-->
+        <div class="card my-2 border-info">
+          <div class="card-header">
+            <h3><tt>{{ item.name }}</tt>
+                <span title="Edit" data-toggle="tooltip">
+                    <button class="btn btn-outline-light btn-sm btn-edit-function ml-2 float-right"
+                            data-toggle="modal"
+                            data-title="Update Function"
+                            data-target="#update-function-modal"
+                            data-name="{{ item.name }}"
+                            data-args="{{ item.args }}"
+                            data-desc="{{ item.description }}"
+                            data-code="{{ item.code }}"
+                            data-url="{{ url_for('function', name=item.name) }}">
+                        <img src="{{ url_for('static', filename='img/icons/edit.svg')}}" height="24" width="24" alt="">
+                    </button>
                 </span>
             </h3>
-        </div>
-        <div class="panel-body">
-        <div class="row">
-            <div class="col-lg-5">
-            <p class="text-uppercase"><strong>Last Input</strong></p>
-            <p class="text-danger"><strong>{{ item.lastin }}</strong></p>
-            <p class="text-uppercase"><strong>Last Output</strong></p>
-            <p class="text-danger"><strong>{{ item.lastout }}</strong></p>
+          </div>
+          <div class="card-body">
+             <div class="card-block">
+                <form class="form-inline card-title">Execution
+                    <span class="input-group">
+                        <span title="JSON Arguments" data-toggle="tooltip">
+                            <small><input type="text" name="input-arguments"
+                                          class="form-control ml-5 mb-2 mr-sm-2"
+                                          placeholder='e.g.: {"x":1, "y":2}...'
+                                          id="func-input-args">
+                            </small>
+                        </span>
+                        <span title='Run' data-toggle="tooltip">
+                                <button class="btn btn-outline-light btn-sm btn-run-function ml-2"
+                                        data-name="{{ item.name }}"
+                                        data-apiurl="{{ url_for('func', name=item.name) }}">
+                                    <img src="{{ url_for('static', filename='img/icons/play.svg')}}" height="24" width="24" alt="">
+                                </button>
+                            </span>
+                        <span title="Evaluation Output" data-toggle="tooltip">
+                            <small>
+                                  <input id="func-output" name="output results"
+                                          class="form-control ml-2 mb-2 mr-sm-2"
+                                          placeholder='output...'
+                                        readonly>
+                            </small>
+                        </span>
+                    </span>
+                </p>
+            </div>
+
+            <div class="card-block">
+                <p class="card-title">Last Input
+                    <span class="card-text text-danger float-right">{{ item.lastin }}</span>
+                </p>
+            </div>
+    
+            <div class="card-block">
+                <p class="card-title">Last Output
+                    <span class="card-text text-danger float-right">{{ item.lastout }}</span>
+                </p>
+            </div>
 
             {% for k, v in item.items()|sort if k not in hidden_keys %}
 
-            <p class="text-uppercase"><strong>{{ k }}</strong></p>
-            {% if k == 'udef' %}
-            <pre class="mypre"><code class="python">{{ v }}</code></pre>
-            {% elif k == 'uri' %}
-            <p><a href={{ v }}>{{ v }}</a></p>
-            {% else %}
-            <p>{{ v }}</p>
-            {% endif %}
+            <div class="card-block">
+                <p class="card-title">{{ k }}
+                {% if k == 'udef' %}
+                <span><pre class="mypre"><code class="python">{{ v }}</code></pre></span></p>
+                {% elif k == 'uri' %}
+                <span class="card-text text-info float-right"><a href={{ v }}>{{ v }}</a></span></p>
+                {% else %}
+                <span class="card-text text-info float-right">{{ v }}</span></p>
+                {% endif %}
+            </div>
 
             {% endfor %}
-            </div>
-            <div class="col-lg-7">
-                <div>
-                    <p class="text-uppercase"><strong>Data [{{ item.description }}]</strong></p>
-                </div>
-                {{ data_div|safe }}
-                {{ data_script|safe }}
-                <div style="margin:0 0 6em 0;"></div>
-                <div>
-                    <p class="text-uppercase"><strong>Trend [X:T, Y:Hit#]</strong></p>
-                </div>
-                {{ trend_div|safe }}
-                {{ trend_script|safe }}
-            </div>
-        </div>
+          </div>
         </div>
     </div>
+       
+    <div class="col-lg-6">
+        <!--Data Viz-->
+        <div class="card my-2 border-info">
+            <div class="card-header">
+                <h3><tt>Data Visualization</tt></h3>
+            </div>
+            <div class="card-body">
+                <div class="card-block">
+                    <h5 class="card-title">Data [{{ item.description }}]</h5>
+                </div>
+                <div class="card-text align-items-center">
+                    {{ data_div|safe }}{{ data_script|safe }}
+                </div>
+
+                <div class="card-block">
+                    <h5 class="card-title">Trend [X:T, Y:Hit#]</h5>
+                </div>
+                <div class="card-text align-items-center">
+                    {{ trend_div|safe }}{{ trend_script|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 {% include 'update_function_modal.html' %}

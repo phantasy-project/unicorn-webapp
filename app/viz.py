@@ -13,8 +13,10 @@ from datetime import datetime
 
 from .utils import eval_code
 
-
 TOOLS = [TapTool(), BoxZoomTool(),HoverTool(), ResetTool(), SaveTool(),]
+
+FIG_WIDTH, FIG_HEIGHT = 500, 300
+
 
 def create_data_plot(f):
     """Create plot of x [I] vs y [B/G].
@@ -22,7 +24,7 @@ def create_data_plot(f):
     f: Function object
     """
     try:
-        p = figure(tools=TOOLS, plot_height=300, plot_width=600)
+        p = figure(tools=TOOLS, plot_height=FIG_HEIGHT, plot_width=FIG_WIDTH)
         x = f.data_x
         y = f.data_y
         xx = np.linspace(x.min(), x.max(), 100)
@@ -51,7 +53,7 @@ def create_trend_plot(f):
         xx = from_ts(x_bins)
         yy = hist
 
-        p = figure(tools=TOOLS, plot_height=300, plot_width=600,
+        p = figure(tools=TOOLS, plot_height=FIG_HEIGHT, plot_width=FIG_WIDTH,
                    x_axis_type='datetime')
         p.xaxis.formatter = DatetimeTickFormatter(
                                 minutes=["%H:%M %d/%b/%Y"],

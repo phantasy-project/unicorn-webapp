@@ -1,8 +1,8 @@
 function format(d) {
-    return '<table class="table table-striped table-condensed">' +
+    return '<table class="table">' +
         '<tr>' +
             '<td><strong>Function Definition</strong></td>' +
-            '<td><pre class="mypre" style="font-size:100%;">' + 
+            '<td><pre class="mypre" style="font-size:100%;">' +
             '<code class="python">' + d + '</code>' +
             '</pre></td>' +
         '</tr>' +
@@ -18,11 +18,11 @@ $(document).ready(function() {
         ],
         "order": [[ 1, "asec" ]],
     });
-    
+
     $("#func-all tbody").on('click', 'td.details-control', function() {
         var tr = $(this).closest('tr');
         var row = table.row(tr);
-        
+
         if (row.child.isShown()) {
             row.child.hide();
             tr.removeClass('shown');
