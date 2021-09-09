@@ -5,6 +5,7 @@ import pytz
 import tzlocal
 import pickle
 import codecs
+import scipy # for CubicSpline
 
 from yapf.yapflib.yapf_api import FormatCode
 
