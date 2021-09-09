@@ -13,3 +13,4 @@ pymysql
 passlib
 bokeh==0.12.13
 numpy
+scipy
