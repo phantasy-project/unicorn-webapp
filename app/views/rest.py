@@ -2,6 +2,7 @@
 
 from datetime import datetime
 import json
+import numpy as np
 
 from flask import abort
 from flask import request
@@ -165,7 +166,9 @@ class FunctionExecAPI(Resource):
         if func is None:
             abort(404)
         inp, oup = eval_code(func, **dict(request.args.items()))
-
+        if isinstance(oup, np.ndarray):
+            # single element array to a scalar
+            oup = oup.item()
         if inp is not None and oup is not None:
             setattr(func, 'lastin', json.dumps(inp))
             setattr(func, 'lastout', str(oup))
