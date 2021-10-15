@@ -1,0 +1,16 @@
+alembic==1.0.0
+click==7.0
+jinja2==2.10
+flask==1.0.2
+flask_restful==0.3.7
+flask_httpauth==3.2.4
+flask-migrate==2.1.1
+flask_sqlalchemy==2.1
+tzlocal==1.5.1
+yapf==0.25.0
+pyopenssl==19.0.0
+pymysql==0.9.3
+passlib==1.7.1
+bokeh==0.12.13
+numpy==1.16.2
+scipy==1.1.0
