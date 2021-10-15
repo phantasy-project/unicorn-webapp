@@ -22,7 +22,8 @@ in the search box in Functions page, only remaining two entries;
 
 ![](/screenshots/readme-01.png)
 
-Choose correct function, e.g. 'FE_MEBT:Q_D1057_I_to_G' to convert `I` to `G`,
+Choose correct function, e.g. 'FE_MEBT:Q_D1057_I_to_B2' to convert `I` (current in A) to
+`B2` (gradient in T/m),
 Click the function name to direct the detail page, on that page, input
 `{"x":10}` in the input box and push run button, the output will be shown in
 the first two top lines of the function detail page.
@@ -48,17 +49,17 @@ admin_client = unicorn.AdminClient('http://localhost:5000')
 # get all functions
 admin_client.get()
 # get function by name, return a dict
-admin_client.get(name='FE_MEBT:Q_D1057_I_to_G')
+admin_client.get(name='FE_MEBT:Q_D1057_I_to_B2')
 
 # api client, the base url + '/api/v1.0'
 api_client = unicorn.ApiClient('http://localhost:5000/api/v1.0')
 
-# get function execution result, I --> G
-api_client.get('FE_MEBT:Q_D1057_I_to_G', x=10)
+# get function execution result, I --> B2
+api_client.get('FE_MEBT:Q_D1057_I_to_B2', x=10)
 # output: {'result': 1.5043739625926702}
 
 # get result from reverse function, i.e. G --> I
-api_client.get('FE_MEBT:Q_D1057_G_to_I', x=1.5043739625926702)
+api_client.get('FE_MEBT:Q_D1057_B2_to_I', x=1.5043739625926702)
 # output: {'result': 9.999999999999586}
 ```
 
